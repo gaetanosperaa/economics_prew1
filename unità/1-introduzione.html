@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unità 1 – Introduzione all'economia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #f8f9fa;
+      color: #212529;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark-mode {
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+    .dark-mode .card {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+    }
+    .dark-mode .btn-outline-secondary {
+      background-color: #343a40;
+      color: #fff;
+      border-color: #495057;
+    }
+    .lesson-title {
+      font-weight: 600;
+    }
+    #badge {
+      display: none;
+      margin-top: 15px;
+      padding: 10px;
+      border: 2px dashed green;
+      background-color: #e6ffe6;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="lesson-title">📘 Unità 1 – Introduzione all’economia</h1>
+      <button id="toggleTheme" class="btn btn-outline-secondary">🌗 Tema</button>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4">
+      <p>
+        L’economia è lo studio di come persone, aziende e governi scelgono di usare le risorse disponibili, come denaro, tempo o materie prime. È una disciplina che ci aiuta a capire il mondo che ci circonda, le scelte che facciamo ogni giorno, e l’impatto che queste scelte hanno su di noi e sulla società.
+      </p>
+      <p>
+        Ad esempio: perché i prezzi aumentano? Perché alcune persone risparmiano e altre spendono tutto? Perché lo Stato tassa? L’economia prova a rispondere a tutte queste domande.
+      </p>
+    </div>
+
+    <div class="card shadow-sm p-4 mb-4">
+      <h5>Quiz: Cos'è l'economia?</h5>
+      <p>Seleziona la risposta corretta:</p>
+      <form id="quizForm">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz" id="q1" value="wrong">
+          <label class="form-check-label" for="q1">Lo studio dei pianeti</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz" id="q2" value="correct">
+          <label class="form-check-label" for="q2">Lo studio delle scelte su risorse limitate</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz" id="q3" value="wrong">
+          <label class="form-check-label" for="q3">Una forma di arte</label>
+        </div>
+        <button type="button" id="checkQuiz" class="btn btn-primary mt-3">Controlla</button>
+      </form>
+      <div id="quizResult" class="mt-3"></div>
+      <div id="badge">🎉 Bravo! Hai completato l’unità 1 e sbloccato il badge!</div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <a href="../index.html" class="btn btn-outline-primary">← Torna alla Home</a>
+      <button id="markCompleted" class="btn btn-outline-success">Segna come completata</button>
+      <a href="2-domanda-offerta.html" class="btn btn-success">Prossima unità →</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    // Tema
+    const toggleBtn = document.getElementById("toggleTheme");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+    });
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark-mode");
+    }
+
+    // Quiz
+    document.getElementById("checkQuiz").addEventListener("click", function() {
+      const answer = document.querySelector('input[name="quiz"]:checked');
+      const result = document.getElementById("quizResult");
+      const badge = document.getElementById("badge");
+
+      if (!answer) {
+        result.innerHTML = "<div class='text-danger'>Seleziona una risposta.</div>";
+        return;
+      }
+
+      if (answer.value === "correct") {
+        result.innerHTML = "<div class='text-success'>Risposta corretta!</div>";
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } else {
+        result.innerHTML = "<div class='text-danger'>Risposta sbagliata. Riprova!</div>";
+        badge.style.display = "none";
+      }
+    });
+
+    // Completamento
+    const completeBtn = document.getElementById("markCompleted");
+    completeBtn.addEventListener("click", () => {
+      localStorage.setItem("unit1_completed", true);
+      completeBtn.textContent = "✔ Completata!";
+      completeBtn.classList.remove("btn-outline-success");
+      completeBtn.classList.add("btn-success");
+    });
+
+    if (localStorage.getItem("unit1_completed")) {
+      const btn = document.getElementById("markCompleted");
+      btn.textContent = "✔ Completata!";
+      btn.classList.remove("btn-outline-success");
+      btn.classList.add("btn-success");
+    }
+  </script>
+</body>
+</html>
